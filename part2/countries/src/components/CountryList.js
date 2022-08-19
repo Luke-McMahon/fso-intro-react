@@ -4,7 +4,7 @@ const CountryList = ({ countries, searchParam }) => {
   if (countries.length === 0) {
     return <p>Loading...</p>;
   }
-
+  console.log(countries);
   if (countries.length > 10) {
     return <p>Too many matches, specific another filter</p>;
   }

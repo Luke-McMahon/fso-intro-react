@@ -1,9 +1,35 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 const Country = ({ country, countries }) => {
   const [showInfo, setShowInfo] = useState(false);
+  const [weatherInfo, setWeatherInfo] = useState({});
 
   const toggleInfo = () => setShowInfo(!showInfo);
+
+  const apiKey = process.env.REACT_APP_API_KEY;
+  const lat = country.latlng[0];
+  const lon = country.latlng[1];
+  const weatherURL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+
+  if (showInfo) {
+    axios
+      .get(weatherURL)
+      .then((response) => {
+        const weatherObj = {
+          weather: response.data.weather[0].description,
+          temperature: response.data.main.temp,
+        };
+
+        console.log(weatherObj);
+
+        setWeatherInfo(weatherObj);
+      })
+      .catch((e) => {
+        console.log(weatherInfo);
+        console.log(e);
+      });
+  }
 
   if (!showInfo) {
     return (
@@ -37,6 +63,12 @@ const Country = ({ country, countries }) => {
           src={country.flags.svg}
           alt={`${country.name.common} flag`}
         />
+        <h4>Weather in {country.name.common}</h4>
+        {weatherInfo !== {} ? (
+          <p>Unable to fetch weather information...</p>
+        ) : (
+          <p>Temperature: {weatherInfo.weather} celcius</p>
+        )}
       </>
     );
   }
