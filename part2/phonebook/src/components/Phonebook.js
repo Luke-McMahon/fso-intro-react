@@ -1,6 +1,8 @@
 import React from "react";
 
-const Phonebook = ({ persons, showFilter }) => {
+import phonebookService from "../services/phonebook";
+
+const Phonebook = ({ persons, showFilter, removeEntry }) => {
   let people = persons.filter((person) => {
     let personTitleCase = person.name.toUpperCase();
     return personTitleCase.includes(showFilter.toUpperCase());
@@ -10,7 +12,8 @@ const Phonebook = ({ persons, showFilter }) => {
     <>
       {people.map((person) => (
         <p key={person.name}>
-          {person.name} {person.number}
+          {person.name} {person.number}{" "}
+          <button onClick={() => removeEntry(person)}>delete</button>
         </p>
       ))}
     </>
