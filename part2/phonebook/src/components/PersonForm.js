@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import phonebookService from "../services/phonebook";
 
-const PersonForm = ({ persons, setPersons, updatePerson }) => {
+const PersonForm = ({ persons, setPersons, updatePerson, onUpdate }) => {
   const [newName, setNewName] = useState("Greg Daniels");
   const [newNumber, setNewNumber] = useState("39-44-53239253");
 
@@ -22,6 +22,9 @@ const PersonForm = ({ persons, setPersons, updatePerson }) => {
 
     phonebookService.create(personObj).then((returnedPerson) => {
       setPersons(persons.concat(returnedPerson));
+
+      onUpdate(`Added ${newName}`, true);
+
       setNewName("");
       setNewNumber("");
     });
