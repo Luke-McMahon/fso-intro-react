@@ -13,8 +13,12 @@ const create = (newPerson) => {
 };
 
 const deletePerson = (person) => {
-  const request = axios.delete(person);
-  return request.then((response) => response.data);
+  const { id } = person;
+  const request = axios.delete(`${baseUrl}/${id}`);
+  return request.then((response) => {
+    console.log("delete response", response);
+    return response.data;
+  });
 };
 
 export default { getAll, create, deletePerson };

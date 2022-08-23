@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 
 import phonebookService from "./services/phonebook";
 
@@ -24,7 +23,14 @@ const App = () => {
     const confirmation = window.confirm(`Delete ${person.name}?`);
 
     if (confirmation) {
-      phonebookService.deletePerson(person.id);
+      phonebookService
+        .deletePerson(person)
+        .then((people) => {
+          setPersons(persons.filter((p) => p.id !== person.id));
+        })
+        .catch((e) => {
+          alert(e);
+        });
     }
   };
 
@@ -38,7 +44,7 @@ const App = () => {
       <Phonebook
         persons={persons}
         showFilter={showFilter}
-        deleteEntry={deleteEntry()}
+        removeEntry={(p) => deleteEntry(p)}
       />
     </>
   );
