@@ -10,7 +10,7 @@ const App = () => {
   const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState("a new note...");
   const [showAll, setShowAll] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("Some error occurred");
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const toggleImportance = (id) => {
     const note = notes.find((n) => n.id === id);
@@ -22,8 +22,9 @@ const App = () => {
         setNotes(notes.map((n) => (n.id !== id ? n : returnedNote)));
       })
       .catch((error) => {
+        alert(error);
         setErrorMessage(
-          `Note '${note.content} was already removed from the server`
+          `Note '${note.content}' was already removed from the server`
         );
         setTimeout(() => {
           setErrorMessage(null);
