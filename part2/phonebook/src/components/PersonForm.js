@@ -2,22 +2,23 @@ import React, { useState } from "react";
 
 import phonebookService from "../services/phonebook";
 
-const PersonForm = ({ persons, setPersons }) => {
+const PersonForm = ({ persons, setPersons, updatePerson }) => {
   const [newName, setNewName] = useState("Greg Daniels");
   const [newNumber, setNewNumber] = useState("39-44-53239253");
 
   const addPerson = (event) => {
     event.preventDefault();
-
-    if (persons.find((person) => person.name === newName)) {
-      alert(`${newName} is already added to the phonebook`);
-      return;
-    }
-
     const personObj = {
       name: newName,
       number: newNumber,
     };
+
+    const existing = persons.find((person) => person.name === newName);
+    if (existing) {
+      const changed = { ...existing, number: newNumber };
+      updatePerson(existing, changed);
+      return;
+    }
 
     phonebookService.create(personObj).then((returnedPerson) => {
       setPersons(persons.concat(returnedPerson));
