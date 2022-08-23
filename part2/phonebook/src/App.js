@@ -35,7 +35,7 @@ const App = () => {
         .deletePerson(person)
         .then((people) => {
           setPersons(persons.filter((p) => p.id !== person.id));
-          handlePersonUpdate(`Removed ${person.name}`);
+          handlePersonUpdate(`Removed ${person.name}`, true);
         })
         .catch((e) => {
           handlePersonUpdate(
