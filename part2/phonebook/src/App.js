@@ -60,7 +60,7 @@ const App = () => {
           handlePersonUpdate(`Updated ${updated.name}`, true);
         })
         .catch((e) => {
-          handlePersonUpdate(`${e}`, false);
+          handlePersonUpdate(`${e.response.data.error}`, false);
         });
     }
   };

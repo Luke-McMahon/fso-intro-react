@@ -20,14 +20,19 @@ const PersonForm = ({ persons, setPersons, updatePerson, onUpdate }) => {
       return;
     }
 
-    phonebookService.create(personObj).then((returnedPerson) => {
-      setPersons(persons.concat(returnedPerson));
+    phonebookService
+      .create(personObj)
+      .then((returnedPerson) => {
+        setPersons(persons.concat(returnedPerson));
 
-      onUpdate(`Added ${newName}`, true);
+        onUpdate(`Added ${newName}`, true);
 
-      setNewName("");
-      setNewNumber("");
-    });
+        setNewName("");
+        setNewNumber("");
+      })
+      .catch((error) => {
+        onUpdate(`${error.response.data.error}`, false);
+      });
   };
 
   const handleNameChange = (event) => {
